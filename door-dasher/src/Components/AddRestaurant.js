@@ -1,45 +1,45 @@
-import React from "react"
-import {useState} from 'react'
-import {collection, addDoc} from "firebase/firestore"
+import React, {useState} from "react"
+import { setDoc, doc} from "firebase/firestore"
 
 // import Routes from './Routes'
 
-import db from './firebase'
-// import { collection, addDoc } from "firebase/firestore"; 
-// import Favorites from "./Components/Favorites"
-// import firebase from "firebase"
-// import Navbar from './components/Navbar'
-// import Routes from './Routes'
+import db from '../firebase'
 
 export default function AddRestaurant() {
-    const [name, setName] = useState("")
-    const [x, setX] = useState("")
-    const [y, setY] = useState("")
+    let [name, setName] = useState('')
+    let [x, setX] = useState('')
+    let [y, setY] = useState('')
 
+  function createId(str) {
+    const splitStr = str.split(" ").join("")
+    return splitStr.replace(splitStr[0], splitStr[0].toLowerCase())
+  }
 
-  const handleSubmit = async() => {
-    try {
-        const docRef = await addDoc(collection(db, "restaurant"), {
-          name,
-          x,
-          y
-        });
-        console.log("Document written with ID: ", docRef.id);
+  const handleSubmit = async(e) => {
+    try{
+      e.preventDefault()
+      const docRef = await setDoc(doc(db, "restaurants", createId(name)), {
+        name,
+        x,
+        y
+      });
+      console.log(docRef)
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-  }
+    }
+
   return (
     <div>
         <div className="add-restaurant">
         <h1>Add Restaurant</h1>
         <form id="edit-product">
           <label htmlFor="name">Restaurant Name:</label>
-          <input name="name" value={name}  />
+          <input name="name" value={name} onChange={event => setName(event.target.value)} />
           <label htmlFor="x">X-coordinate:</label>
-          <input name="x" value={x} />
+          <input name="x" value={x} onChange={event => setX(event.target.value)} />
           <label htmlFor="y">Y-coordinate:</label>
-          <input name="y" value={y} />
+          <input name="y" value={y} onChange={event => setY(event.target.value)}/>
           <div className="below-item">
             <button className="add-product" type="submit" onClick={handleSubmit}>
               Submit

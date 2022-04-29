@@ -3,11 +3,13 @@ import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet';
 import {useState, useEffect} from 'react'
 import { collection, getDocs } from "firebase/firestore";
 import db from '../firebase'
-import history from '../history'
+// import {useHistory} from 'react-router-dom'
+import history from "../history";
 
 
 function Favorites(props) {
     const [restaurants, setRestaurants] = useState([])
+    const map = useMap();
 
     useEffect(() => {
         const fetchRestaurants = async () => {
@@ -23,6 +25,13 @@ function Favorites(props) {
 
     function addRestaurant() {
         history.push("/restaurants/add")
+        // let history = useHistory()
+        // history.push({
+        //     pathname: "/restaurants/add"})
+    }
+
+    function handleClick() {
+        console.log("hello")
     }
     
     return (
@@ -49,7 +58,17 @@ function Favorites(props) {
                 />
                 {restaurants.map((restaurant) => {
                     return (
-                        <Marker key={restaurant.name} position={[restaurant.x,restaurant.y]}>
+                        <Marker key={restaurant.name} position={[restaurant.x,restaurant.y]} eventHandlers={{
+                            click: () => {
+                              map.setView(
+                                [
+                                  restaurant.x,
+                                  restaurant.y
+                                ],
+                                14
+                              );
+                            }
+                          }}>
                             <Popup>{restaurant.name}</Popup>
                         </Marker>
                     )
@@ -66,11 +85,5 @@ function Favorites(props) {
 
 export default Favorites
 
-// const mapState = state => {
-//     return {
-//       places: lists
-//     }
-//   }
-  
-// export default connect (mapState)(App)
+
 
