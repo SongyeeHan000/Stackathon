@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#favorites-header{
+  text-align: center;
+}
+/* .favorites{
+  align-content:
+} */
+/* .favorites-page {
+  display:flex
+} */
+
+.leaflet-container {
+  width: 40%;
+  height: 50vh;
+}
+/* #add-places {
+  align-content: flex-end;
+} */
+.restaurants {
+  height:50vh;
+  width:40%;
+  border:1px solid #ccc;
+  font:16px/26px Georgia, Garamond, Serif;
+  overflow:auto;
+} 
+

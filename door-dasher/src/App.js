@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
+import Routes from './Routes'
+
+import db from './firebase'
+import { collection, addDoc } from "firebase/firestore"; 
+// import Favorites from "./Components/Favorites"
+// import firebase from "firebase"
+// import Navbar from './components/Navbar'
+// import Routes from './Routes'
+
+export default function App() {
+  // foo()
+  // return (
+  //   <div>
+  //     Hello
+  //     {/* <h1>React & Firebase</h1>
+  //     <h2>By @farazamiruddin</h2> */}
+  //     {/* <code>
+  //       <pre>{JSON.stringify(firebaseApp.options, null, 2)}</pre>
+  //     </code> */}
+  //   </div>
+  // );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes />
     </div>
-  );
+  )
 }
-
-export default App;
