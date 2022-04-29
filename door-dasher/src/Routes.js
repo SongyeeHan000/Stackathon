@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes} from "react-router-dom";
 
 import Favorites from './Components/Favorites'
 import Users from './Components/Users'
+import AddRestaurants from './Components/AddRestaurant'
 
 
 const Router = () => {
@@ -11,7 +12,7 @@ const Router = () => {
       <Routes>
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/users" element={<Users />} />
-
+        <Route path="/restaurants/add" element={<AddRestaurants />} />
       </Routes>
     </BrowserRouter>
   );

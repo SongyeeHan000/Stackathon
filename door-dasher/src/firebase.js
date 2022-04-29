@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCMB5rlFJC5hcmjeShduzdeMNO0EhccToc",
-  authDomain: "stackaton0427.firebaseapp.com",
-  projectId: "stackaton0427",
-  storageBucket: "stackaton0427.appspot.com",
-  messagingSenderId: "207950228388",
-  appId: "1:207950228388:web:bbca361568028a1da16f31",
-  measurementId: "G-P3E1S7P0PX"
+  apiKey: "AIzaSyB-cd30at3tViAam5eNEwka-DatWMs-5nM",
+  authDomain: "stackathon-262c1.firebaseapp.com",
+  projectId: "stackathon-262c1",
+  storageBucket: "stackathon-262c1.appspot.com",
+  messagingSenderId: "691826557713",
+  appId: "1:691826557713:web:24b2624c74cede934e42b0",
+  measurementId: "G-XG6C47PNBE"
 };
 
 const app = initializeApp(firebaseConfig);

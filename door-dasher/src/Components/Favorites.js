@@ -1,42 +1,44 @@
 import React from "react";
 import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet';
-// import {faker} from '@faker-js/faker'
-// import {connect} from 'react-redux'
-
-const dominiqueAnsel = {
-    name: "Dominique Ansel Bakery",
-    notes: "Best cronuts. Cronut King.",
-    position: [40.725185,-74.002998]
-}
-const omakaseByKorami = {
-    name: "Omakase by Korami",
-    notes: "Best omakase place ever. 18 pieces for $85. Amazing mackeral and specials.",
-    position: [40.764519328998226, -73.9892952998557]
-}
-const abikoCurry = {
-    name: "Abiko Curry",
-    notes: "Thick curry, but also can adjust spicy levels.",
-    position: [40.747526510073996, -73.98622681699115]
-}
-const lists = [dominiqueAnsel, omakaseByKorami, abikoCurry]
+import {useState, useEffect} from 'react'
+import { collection, getDocs } from "firebase/firestore";
+import db from '../firebase'
+import history from '../history'
 
 
 function Favorites(props) {
+    const [restaurants, setRestaurants] = useState([])
 
-  return (
+    useEffect(() => {
+        const fetchRestaurants = async () => {
+            const restaurantsDB = await getDocs(collection(db, "restaurants"))
+            const fetchedRestaurants = []
+            restaurantsDB.forEach((restaurant) => {
+                fetchedRestaurants.push(restaurant.data())
+            })
+            setRestaurants(fetchedRestaurants)
+        }
+        fetchRestaurants()
+    })
+
+    function addRestaurant() {
+        history.push("/restaurants/add")
+    }
+    
+    return (
     <div className="favorites-page">
       <h1 id="favorites-header">Favorites</h1>
         <div className="favorites">
             <div className="restaurants">
                 <h1>Lists of restaurants</h1>
                 <ul>
-                    {lists.map((place) => {
+                    {restaurants.map((restaurant) => {
                     return (
-                        <p key={place.name}>{place.name}</p>
+                        <p key={restaurant.name}>{restaurant.name}</p>
                     )
                     })}
                 </ul>
-                <button id="add-places" type="button">Add Places</button>
+                <button id="add-places" type="button" onClick={addRestaurant}>Add Places</button>
             </div>
         
             <div id="map">
@@ -45,10 +47,10 @@ function Favorites(props) {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {lists.map((place) => {
+                {restaurants.map((restaurant) => {
                     return (
-                        <Marker key={place.name} position={place.position}>
-                            <Popup>{place.name}</Popup>
+                        <Marker key={restaurant.name} position={[restaurant.x,restaurant.y]}>
+                            <Popup>{restaurant.name}</Popup>
                         </Marker>
                     )
                 })}
