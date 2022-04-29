@@ -1,10 +1,12 @@
 import React from "react";
 import { MapContainer, TileLayer, Popup, Marker, useMap } from 'react-leaflet';
 import {useState, useEffect} from 'react'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import db from '../firebase'
-// import {useHistory} from 'react-router-dom'
 import history from "../history";
+import { Link } from "react-router-dom";
+
+
 
 
 const abikoCurry = {
@@ -76,20 +78,13 @@ function Favorites(props) {
     //     fetchRestaurants()
     // })
 
-    // useEffect(() => {
-    //     fetch("https://api-adresse.data.gouv.fr/search/?q=paris&type=street")
-    //       .then((response) => response.json())
-    //       .then((response) => {
-    //         setData(response.features);
-    //       });
-    //   }, []);
-
     function addRestaurant() {
         history.push("/restaurants/add")
-        // let history = useHistory()
-        // history.push({
-        //     pathname: "/restaurants/add"})
     }
+    // async function handleDelete(event) {
+    //     const value = event.target.getAttribute("value")
+    //     await deleteDoc(doc(db, "restaurants", {restaurant.id}))
+    // }
     
     
     return (
@@ -102,7 +97,7 @@ function Favorites(props) {
                     {restaurantList.map((restaurant) => {
                     return (
                         <div className="restaurantLists">
-                            <button type="button">X</button>
+                            <button type="button" value={restaurant} >X</button>
                             <p key={restaurant.name}>{restaurant.name}</p>
                         </div>
                        
@@ -130,7 +125,9 @@ function Favorites(props) {
                 </MapContainer>
             </div>
         </div>
-          
+
+        <Link to="/homepage" className="BackLink">Back</Link>
+      
     </div>
       
   );
