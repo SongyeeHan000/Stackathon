@@ -40,10 +40,23 @@ import {restaurantList} from "../fakeData"
 //       })
 //     );
 //   }
+// function MapHelper({ loc }) {
+//   const map = useMap()
+
+//   if (loc && loc.length) {
+//     map.flyTo([loc[0], loc[1]], 14, {
+//       animate: true,
+//       duration: 1 // in seconds
+//     })
+//   }
+// }
+
 
 // function Favorites(props) {
 //     const [restaurants, setRestaurants] = useState([])
-//     // const [data, setData] = useState([])
+//     const [data, setData] = useState([])
+//     const [loc, setLoc] = useState([])
+
     
 
 //     useEffect(() => {
@@ -71,7 +84,11 @@ import {restaurantList} from "../fakeData"
 //         const docId = createId(name)
 //         await deleteDoc(doc(db, "restaurants", docId))
 //     }
-    
+//     function handleClick(event, restaurant) {
+//       console.log("hello")
+//       setLoc([restaurant.x, restaurant.y])
+//     }
+        
     
 //     return (
 //     <div className="favorites-page">
@@ -84,7 +101,7 @@ import {restaurantList} from "../fakeData"
 //                     return (
 //                         <div className="restaurantLists">
 //                             <button type="button" value={restaurant.name} onClick={handleDelete} >X</button>
-//                             <p key={restaurant.name}>{restaurant.name}</p>
+//                             <p onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
 //                         </div>
 //                     )
 //                     })}
@@ -99,6 +116,8 @@ import {restaurantList} from "../fakeData"
 //                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 //                 />
 //                 <Markers data={restaurants}/>
+//                 <MapHelper loc={loc}/>
+
 //                 {/* {restaurantList.map((restaurant) => {
 //                     return (
                         
@@ -132,13 +151,13 @@ function Markers( {data} ) {
         <Marker
           eventHandlers={{
             click: () => {
-              // map.setView(
-              //   [
-              //     restaurant.x,
-              //     restaurant.y
-              //   ],
-              //   14
-              // );
+              map.setView(
+                [
+                  restaurant.x,
+                  restaurant.y
+                ],
+                14
+              );
               map.flyTo([restaurant.x, restaurant.y], 14, {
                 animate: true,
                 duration: 2 // in seconds
@@ -160,38 +179,13 @@ function Markers( {data} ) {
   );
 }
 
-function ListOfRestaurants() {
-  const map = useMap();
-
-  function handleClick(event, restaurant) {
-    // console.log("hello")
-    map.flyTo([restaurant.x, restaurant.y], 14, {
-      animate: true,
-      duration: 2 // in seconds
-    })
-  }
-
-  return (
-    <ul>
-      {restaurantList.map((restaurant) => {
-        return (
-          <div className="restaurantLists" key={restaurant.name}>
-              <button type="button" value={restaurant.name}>X</button>
-              <p onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
-          </div>
-        )
-        })}
-    </ul>
-  )
-}
-
 function MapHelper({ loc }) {
   const map = useMap()
 
   if (loc && loc.length) {
-    map.flyTo([loc[0], loc[1]], 14, {
+    map.flyTo([loc[0], loc[1]], 16, {
       animate: true,
-      duration: 2 // in seconds
+      duration: 1 // in seconds
     })
   }
 }
@@ -212,8 +206,15 @@ function Favorites(props) {
   //     const docId = createId(name)
   //     await deleteDoc(doc(db, "restaurants", docId))
   // }
+  function handleDelete(event) {
+    const name = event.target.value
+    if (restaurantList.includes(name)) {
+      console.log(restaurantList.includes(name))
+    }
+
+    
+  }
   function handleClick(event, restaurant) {
-    console.log("hello")
     setLoc([restaurant.x, restaurant.y])
   }
 
@@ -228,7 +229,7 @@ function Favorites(props) {
                   {restaurantList.map((restaurant) => {
                   return (
                       <div className="restaurantLists">
-                          <button type="button" value={restaurant.name}>X</button>
+                          <button type="button" value={restaurant.name} onClick={handleDelete}>X</button>
                           <p key={restaurant.name} onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
                       </div>
                   )
