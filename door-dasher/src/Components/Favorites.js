@@ -5,135 +5,255 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import db from '../firebase'
 import history from "../history";
 import { Link } from "react-router-dom";
+import {restaurantList} from "../fakeData"
+
+
+// function Markers( {data} ) {
+//     const map = useMap();
+//     return (
+//       data.length > 0 &&
+//       data.map((restaurant) => {
+//         return (
+//           <Marker
+//             eventHandlers={{
+//               click: () => {
+//                 map.setView(
+//                   [
+//                     restaurant.x,
+//                     restaurant.y
+//                   ],
+//                   14
+//                 );
+//               }
+//             }}
+//             key={restaurant.name}
+//             position={{
+//               lat: restaurant.x,
+//               lng: restaurant.y
+//             }}
+//           >
+//             <Popup>
+//               <span>{restaurant.name}</span>
+//             </Popup>
+//           </Marker>
+//         );
+//       })
+//     );
+//   }
+
+// function Favorites(props) {
+//     const [restaurants, setRestaurants] = useState([])
+//     // const [data, setData] = useState([])
+    
+
+//     useEffect(() => {
+//         const fetchRestaurants = async () => {
+//             const restaurantsDB = await getDocs(collection(db, "restaurants"))
+//             const fetchedRestaurants = []
+//             restaurantsDB.forEach((restaurant) => {
+//                 fetchedRestaurants.push(restaurant.data())
+//             })
+//              setRestaurants(fetchedRestaurants)
+//         }
+//         fetchRestaurants()
+//     })
+
+//     function createId(str) {
+//       const splitStr = str.split(" ").join("")
+//       return splitStr.replace(splitStr[0], splitStr[0].toLowerCase())
+//     }
+
+//     function addRestaurant() {
+//         history.push("/restaurants/add")
+//     }
+//     async function handleDelete(event) {
+//         const name = event.target.getAttribute("value")
+//         const docId = createId(name)
+//         await deleteDoc(doc(db, "restaurants", docId))
+//     }
+    
+    
+//     return (
+//     <div className="favorites-page">
+//       <h1 id="favorites-header">Favorites</h1>
+//         <div className="favorites">
+//             <div className="child">
+//                 <h1>Lists of Restaurants</h1>
+//                 <ul>
+//                     {restaurants.map((restaurant) => {
+//                     return (
+//                         <div className="restaurantLists">
+//                             <button type="button" value={restaurant.name} onClick={handleDelete} >X</button>
+//                             <p key={restaurant.name}>{restaurant.name}</p>
+//                         </div>
+//                     )
+//                     })}
+//                 </ul>
+//                 <button id="add-places" type="button" onClick={addRestaurant}>Add Places</button>
+//             </div>
+        
+//             <div id="map" className="child">
+//                 <MapContainer center={[40.730610, -73.935242]} zoom={10} scrollWheelZoom={false}>
+//                 <TileLayer
+//                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//                 />
+//                 <Markers data={restaurants}/>
+//                 {/* {restaurantList.map((restaurant) => {
+//                     return (
+                        
+//                         // <Marker key={restaurant.name} position={[restaurant.x,restaurant.y]} >
+//                         //     <Popup>{restaurant.name}</Popup>
+//                         // </Marker>
+//                     )
+//                 })} */}
+//                 </MapContainer>
+//             </div>
+//         </div>
+
+//         <Link to="/homepage" className="BackLink">Back</Link>
+      
+//     </div>
+      
+//   );
+// }
+
+// export default Favorites
 
 
 
-
-const abikoCurry = {
-    name: "Abiko Curry",
-    x: 40.753355024966176,
-    y: -73.98675836884865
-}
-const unionSquareCafe = {
-    name: "Union Square Cafe",
-    x: 40.737900247762695,
-    y: -73.98776941328308
-}
-const namiNori = {
-    name: "Nami Nori",
-    x: 40.73516875725115,
-    y: -74.00036506711312
-}
-const restaurantList = [abikoCurry, unionSquareCafe, namiNori]
-
-
+//fakeData//
 function Markers( {data} ) {
-    const map = useMap();
-    console.log(data)
-    return (
-      data.length > 0 &&
-      data.map((restaurant) => {
-        return (
-          <Marker
-            eventHandlers={{
-              click: () => {
-                map.setView(
-                  [
-                    restaurant.x,
-                    restaurant.y
-                  ],
-                  14
-                );
-              }
-            }}
-            key={restaurant.name}
-            position={{
-              lat: restaurant.x,
-              lng: restaurant.y
-            }}
-          >
-            <Popup>
-              <span>{restaurant.name}</span>
-            </Popup>
-          </Marker>
-        );
-      })
-    );
+  const map = useMap();
+  return (
+    data.length > 0 &&
+    data.map((restaurant) => {
+      return (
+        <Marker
+          eventHandlers={{
+            click: () => {
+              // map.setView(
+              //   [
+              //     restaurant.x,
+              //     restaurant.y
+              //   ],
+              //   14
+              // );
+              map.flyTo([restaurant.x, restaurant.y], 14, {
+                animate: true,
+                duration: 2 // in seconds
+              })
+            }
+          }}
+          key={restaurant.name}
+          position={{
+            lat: restaurant.x,
+            lng: restaurant.y
+          }}
+        >
+          <Popup>
+            <span>{restaurant.name}</span>
+          </Popup>
+        </Marker>
+      );
+    })
+  );
+}
+
+function ListOfRestaurants() {
+  const map = useMap();
+
+  function handleClick(event, restaurant) {
+    // console.log("hello")
+    map.flyTo([restaurant.x, restaurant.y], 14, {
+      animate: true,
+      duration: 2 // in seconds
+    })
   }
 
+  return (
+    <ul>
+      {restaurantList.map((restaurant) => {
+        return (
+          <div className="restaurantLists" key={restaurant.name}>
+              <button type="button" value={restaurant.name}>X</button>
+              <p onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
+          </div>
+        )
+        })}
+    </ul>
+  )
+}
+
+function MapHelper({ loc }) {
+  const map = useMap()
+
+  if (loc && loc.length) {
+    map.flyTo([loc[0], loc[1]], 14, {
+      animate: true,
+      duration: 2 // in seconds
+    })
+  }
+}
+
 function Favorites(props) {
-    // const [restaurants, setRestaurants] = useState([])
-    // const [data, setData] = useState([])
-    
+  const [loc, setLoc] = useState([])
+  
+  function createId(str) {
+    const splitStr = str.split(" ").join("")
+    return splitStr.replace(splitStr[0], splitStr[0].toLowerCase())
+  }
 
-    // useEffect(() => {
-    //     const fetchRestaurants = async () => {
-    //         const restaurantsDB = await getDocs(collection(db, "restaurants"))
-    //         const fetchedRestaurants = []
-    //         restaurantsDB.forEach((restaurant) => {
-    //             fetchedRestaurants.push(restaurant.data())
-    //         })
-    //          setRestaurants(fetchedRestaurants)
-    //     }
-    //     fetchRestaurants()
-    // })
+  function addRestaurant() {
+      history.push("/restaurants/add")
+  }
+  // async function handleDelete(event) {
+  //     const name = event.target.getAttribute("value")
+  //     const docId = createId(name)
+  //     await deleteDoc(doc(db, "restaurants", docId))
+  // }
+  function handleClick(event, restaurant) {
+    console.log("hello")
+    setLoc([restaurant.x, restaurant.y])
+  }
 
-    function addRestaurant() {
-        history.push("/restaurants/add")
-    }
-    // async function handleDelete(event) {
-    //     const value = event.target.getAttribute("value")
-    //     await deleteDoc(doc(db, "restaurants", {restaurant.id}))
-    // }
-    
-    
-    return (
-    <div className="favorites-page">
-      <h1 id="favorites-header">Favorites</h1>
-        <div className="favorites">
-            <div className="child">
-                <h1>Lists of restaurants</h1>
-                <ul>
-                    {restaurantList.map((restaurant) => {
-                    return (
-                        <div className="restaurantLists">
-                            <button type="button" value={restaurant} >X</button>
-                            <p key={restaurant.name}>{restaurant.name}</p>
-                        </div>
-                       
-                    )
-                    })}
-                </ul>
-                <button id="add-places" type="button" onClick={addRestaurant}>Add Places</button>
-            </div>
-        
-            <div id="map" className="child">
-                <MapContainer center={[40.730610, -73.935242]} zoom={10} scrollWheelZoom={false}>
+  
+  return (
+  <div className="favorites-page">
+    <h1 id="favorites-header">Favorites</h1>
+      <div className="favorites">
+          <div className="child">
+              <h1>Lists of Restaurants</h1>
+              <ul>
+                  {restaurantList.map((restaurant) => {
+                  return (
+                      <div className="restaurantLists">
+                          <button type="button" value={restaurant.name}>X</button>
+                          <p key={restaurant.name} onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
+                      </div>
+                  )
+                  })}
+              </ul>
+              <button id="add-places" type="button" onClick={addRestaurant}>Add Places</button>
+          </div>
+      
+          <div id="map" className="child">
+              <MapContainer center={[40.730610, -73.935242]} zoom={10} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <Markers data={restaurantList}/>
-                {/* {restaurantList.map((restaurant) => {
-                    return (
-                        
-                        // <Marker key={restaurant.name} position={[restaurant.x,restaurant.y]} >
-                        //     <Popup>{restaurant.name}</Popup>
-                        // </Marker>
-                    )
-                })} */}
-                </MapContainer>
-            </div>
-        </div>
+                <MapHelper loc={loc}/>
+              </MapContainer>
+          </div>
+      </div>
 
-        <Link to="/homepage" className="BackLink">Back</Link>
-      
-    </div>
-      
-  );
+      <Link to="/homepage" className="BackLink">Back</Link>
+    
+  </div>
+    
+);
 }
 
 export default Favorites
-
-
-

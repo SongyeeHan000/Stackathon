@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import { setDoc, doc} from "firebase/firestore"
+import history from "../history"
 
 // import Routes from './Routes'
 
@@ -23,7 +24,7 @@ export default function AddRestaurant() {
         x,
         y
       });
-      console.log(docRef)
+      history.push('/favorites')
       } catch (e) {
         console.error("Error adding document: ", e);
       }

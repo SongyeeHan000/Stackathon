@@ -14,20 +14,10 @@ code {
 #favorites-header{
   text-align: center;
 }
-/* .favorites{
-  align-content:
-} */
-/* .favorites-page {
-  display:flex
-} */
-
 .leaflet-container {
   width: 100%;
   height: 50vh;
 }
-/* #add-places {
-  align-content: flex-end;
-} */
 .restaurants {
   height:50vh;
   width:40%;
@@ -80,4 +70,28 @@ nav {
   background-color: white;
   width: 100%;
   top: 0px;
+}
+
+#map {
+  width: 50%
+}
+#main-page-header {
+  text-align: center;
+}
+.main-page {
+  display:flex;
+  width: 100%
+}
+
+.favorites .child ul {
+  height:300px;
+  width:auto;
+  border:1px solid #ccc;
+  font:16px/26px Georgia, Garamond, Serif;
+  overflow:auto
+
+}
+
+.favorites .child ul p:hover {
+  background-color: yellow
 }
