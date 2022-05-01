@@ -192,6 +192,7 @@ function MapHelper({ loc }) {
 
 function Favorites(props) {
   const [loc, setLoc] = useState([])
+  const [display, setDisplay] = useState([""])
   
   function createId(str) {
     const splitStr = str.split(" ").join("")
@@ -216,6 +217,12 @@ function Favorites(props) {
   }
   function handleClick(event, restaurant) {
     setLoc([restaurant.x, restaurant.y])
+    const review = document.getElementById(restaurant.name)
+    if (review.style.display === "none") {
+      review.style.display = "block";
+    } else {
+      review.style.display = "none";
+    }
   }
 
   
@@ -230,7 +237,8 @@ function Favorites(props) {
                   return (
                       <div className="restaurantLists">
                           <button type="button" value={restaurant.name} onClick={handleDelete}>X</button>
-                          <p key={restaurant.name} onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
+                          <p className="restaurant" key={restaurant.name} onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
+                          <p className="reviews" id ={restaurant.name} style={{display:"none"}}>{restaurant.review}</p>
                       </div>
                   )
                   })}

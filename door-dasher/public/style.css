@@ -95,3 +95,13 @@ nav {
 .favorites .child ul p:hover {
   background-color: yellow
 }
+.restaurant {
+  outline:none;
+  cursor:pointer;
+  width:100px;
+  height:100px
+}
+
+.reviews { 
+  display:none;
+}
