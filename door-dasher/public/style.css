@@ -97,10 +97,13 @@ nav {
 }
 .restaurant {
   outline:none;
+  display:inline-block;
+  line-height: 100px;
   cursor:pointer;
   width:100px;
   height:100px
 }
+
 
 .reviews { 
   display:none;
