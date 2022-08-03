@@ -17,6 +17,7 @@ code {
 .leaflet-container {
   width: 100%;
   height: 50vh;
+  border-radius: 30px;
 }
 .restaurants {
   height:50vh;
@@ -33,6 +34,7 @@ code {
 .restaurantLists {
   display: flex;
   align-items: center;
+  height:80px
 }
 
 .restaurantLists button {
@@ -43,13 +45,14 @@ code {
 }
 .favorites { 
  display:flex;
- width: 100%
-
+ width: 100%;
+background-color: white;
 }
 
 .child{
   flex:1;
-  border: 2px solid blueviolet; 
+  border: 2px solid brown; 
+  border-radius: 30px;
 }
 
 .BackLink {
@@ -61,7 +64,7 @@ code {
 nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 0;
 }
 
@@ -97,14 +100,58 @@ nav {
 }
 .restaurant {
   outline:none;
-  display:inline-block;
+  /* display:inline-block; */
   line-height: 100px;
   cursor:pointer;
-  width:100px;
+  width:200px;
   height:100px
 }
 
 
 .reviews { 
   display:none;
+}
+
+body {
+  background-image: url(https://watermark.lovepik.com/background/20211021/large/lovepik-delicious-colorful-food-texture-background-image_450042229.jpg)
+}
+
+/* a:link {
+  border: 2px solid green;
+  background-color: white;
+  width: 100px; 
+  height: 25px;
+  text-align: center;
+  line-height: normal; 
+} */
+
+nav img {
+  height:100px
+}
+nav {
+  background-color: white;
+  height:100px;
+  border: 1px solid brown
+}
+.add-restaurant {
+  text-align: center;
+}
+
+
+#add-form {
+  text-align:center;
+  background-color: white;
+  padding: 10px;
+  margin-left: auto;
+}
+.main-page {
+  background-color: white;
+}
+#main-page-header {
+  background-color: white;
+  border: 1px solid brown;
+}
+#favorites-header {
+  background-color: white;
+  border: 1px solid brown
 }

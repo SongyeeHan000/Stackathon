@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Popup, Marker, useMap } from 'react-leaflet';
 import {useState, useEffect} from 'react'
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import db from '../firebase'
-import history from "../history";
 import { Link } from "react-router-dom";
 import {restaurantList} from "../fakeData"
 
@@ -193,15 +192,21 @@ function MapHelper({ loc }) {
 function Favorites(props) {
   const [loc, setLoc] = useState([])
   const [display, setDisplay] = useState([""])
-  
+  const [restaurants, setRestaurants] = useState([])
+
   function createId(str) {
     const splitStr = str.split(" ").join("")
     return splitStr.replace(splitStr[0], splitStr[0].toLowerCase())
   }
+  useEffect(() => {
+    // const list = async () => {
+    //   setRestaurant(restaurantList)
+    // }
+    // return list
+    setRestaurants([...restaurantList])
+  }, [])
 
-  function addRestaurant() {
-      history.push("/restaurants/add")
-  }
+  // }
   // async function handleDelete(event) {
   //     const name = event.target.getAttribute("value")
   //     const docId = createId(name)
@@ -209,12 +214,14 @@ function Favorites(props) {
   // }
   function handleDelete(event) {
     const name = event.target.value
-    if (restaurantList.includes(name)) {
-      console.log(restaurantList.includes(name))
+    for (let i = 0; i < restaurants.length; i++) {
+      if (restaurants[i].name === name) {
+        restaurants.splice(i,1)
+      }
     }
-
-    
+    setRestaurants([...restaurants])
   }
+
   function handleClick(event, restaurant) {
     setLoc([restaurant.x, restaurant.y])
     const review = document.getElementById(restaurant.name)
@@ -233,9 +240,9 @@ function Favorites(props) {
           <div className="child">
               <h1>Lists of Restaurants</h1>
               <ul>
-                  {restaurantList.map((restaurant) => {
+                  {restaurants.map((restaurant) => {
                   return (
-                      <div className="restaurantLists">
+                      <div className="restaurantLists" key={restaurant.name}>
                           <button type="button" value={restaurant.name} onClick={handleDelete}>X</button>
                           <p className="restaurant" key={restaurant.name} onClick={(event)=> handleClick(event, restaurant)}>{restaurant.name}</p>
                           <p className="reviews" id ={restaurant.name} style={{display:"none"}}>{restaurant.review}</p>
@@ -243,11 +250,13 @@ function Favorites(props) {
                   )
                   })}
               </ul>
-              <button id="add-places" type="button" onClick={addRestaurant}>Add Places</button>
+              <div id="add-restaurant">
+                <Link to="/restaurants/add" id="add-place-button">Add Restaurant</Link>
+              </div>
           </div>
       
           <div id="map" className="child">
-              <MapContainer center={[40.730610, -73.935242]} zoom={10} scrollWheelZoom={false}>
+              <MapContainer center={[40.735308, -73.994594]} zoom={12} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

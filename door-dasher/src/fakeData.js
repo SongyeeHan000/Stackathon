@@ -1,20 +1,3 @@
-const becky = {
-    name: "Becky",
-    email: "becky@gmail.com",
-    password: "1111",
-    friends: []
-}
-const sharon = {
-    name: "Sharon",
-    email: "sharon@gmail.com",
-    password:"1111",
-    friends:[{becky}]
-}
-const lisa = {
-    name: "Lisa", 
-}
-
-export const users = [becky, sharon, lisa]
 
 const abikoCurry = {
     name: "Abiko Curry",
@@ -40,5 +23,29 @@ const sakaMai = {
     y: -73.98787263889123,
     review: "Place for uni lovers. I recommend their 'Egg on Egg on Egg' and their 'Uni mazemen'. "
 }
-
 export const restaurantList = [abikoCurry, unionSquareCafe, namiNori, sakaMai]
+
+const becky = {
+    id:1,
+    name: "Becky",
+    email: "becky@gmail.com",
+    password: "1111",
+    friends: [],
+    favorites: [abikoCurry, sakaMai, {name:"Jua", x: 40.73996470920206, y:-73.98781624135466}]
+}
+const sharon = {
+    id:2,
+    name: "Sharon",
+    email: "sharon@gmail.com",
+    password:"1111",
+    friends:[{becky}],
+    favorites: [{name:"Jua", x: 40.73996470920206, y:-73.98781624135466}, sakaMai]
+}
+// const lisa = {
+//     name: "Lisa", 
+//     email: "lisa@gmail.com",
+//     password:"1111",
+//     friends: [{sharon,becky}]
+// }
+
+export const users = [becky, sharon]
